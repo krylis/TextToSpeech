@@ -1,11 +1,20 @@
 import os
 from google.cloud import texttospeech
+from PyPDF2 import PdfReader
 
+# get text from pdf
+reader = PdfReader('example.pdf')
+
+page = reader.pages[0]
+
+pdf_text = page.extract_text()
+
+# send text to api to generate audio file
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:\\Users\cmcsh\OneDrive\Desktop\Google API\days-of-code-397702-3bbdf2c60dbb.json"
 
 client = texttospeech.TextToSpeechClient()
 
-synthesis_input = texttospeech.SynthesisInput(text="Wassup freak bitches!")
+synthesis_input = texttospeech.SynthesisInput(text=pdf_text)
 
 voice = texttospeech.VoiceSelectionParams(
     language_code="en-US",
